@@ -78,8 +78,8 @@ def get_line_error():
 def move_robot(error, pixel_count, searching=False):
     global last_error
     
-    Kp, Kd = 7.5, 3.8
-    BASE_SPEED = 50
+    Kp, Kd = 7.3, 3.8
+    BASE_SPEED = 48
     PIVOT_SPEED = 70
     PIVOT_THRESHOLD = 65
     LOW_PIXEL_COUNT = 500 
@@ -167,3 +167,4 @@ finally:
     GPIO.cleanup()
     cv2.destroyAllWindows()
 
+''
