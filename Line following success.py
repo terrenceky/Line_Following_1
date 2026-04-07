@@ -62,9 +62,7 @@ def get_line_error():
     
     # Threshold for a real line - adjust based on your P value
     # If the line is missing, pixel_count will now be 0
-    if pixel_count > 10000:
-        error = "FINISH"
-    elif 200 < pixel_count < 2500: 
+    if 200 < pixel_count < 2500: 
         cx = int(M['m10'] / M['m00'])
         cv2.circle(debug_view, (cx, 20), 5, (0, 255, 0), -1) 
         error = cx - cam_center
@@ -81,9 +79,9 @@ def move_robot(error, pixel_count, searching=False):
     global last_error
     
     Kp, Kd = 7.5, 3.8
-    BASE_SPEED = 40
+    BASE_SPEED = 50
     PIVOT_SPEED = 70
-    PIVOT_THRESHOLD = 35
+    PIVOT_THRESHOLD = 65
     LOW_PIXEL_COUNT = 500 
     
     if error is not None and error != "FINISH":
@@ -142,12 +140,7 @@ try:
         result, p_count = get_line_error()
         status_img = np.zeros((180, 400, 3), dtype="uint8")
 
-        if result == "FINISH":
-            print("Finish line detected!")
-            stop_motors()
-            break 
-        
-        elif result is not None:
+        if result is not None:
             l_pwr, r_pwr = move_robot(result, p_count)
             msg, clr = f"Error: {result}", (0, 255, 0)
         
@@ -173,3 +166,4 @@ finally:
     picam2.stop()
     GPIO.cleanup()
     cv2.destroyAllWindows()
+
